@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
-import { INSTANCIA_DATA_MAP } from '@/prompts/instanceTypes';
+import { getInstanceData } from '@/prompts/instanceTypes';
 
 const TestScreen = () => {
+    const [data, setData] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -10,18 +11,12 @@ const TestScreen = () => {
   const testInstanceKey = "INSTÀNCIA GENÈRICA";
 
   useEffect(() => {
-    const loadInstanceData = async () => {
+    const loadInstanceData = () => {
       setIsLoading(true);
       try {
-        const filePath = "/prompts/instanceData/" + INSTANCIA_DATA_MAP[testInstanceKey];
-        if (!filePath) {
-          throw new Error('Invalid instance type key');
-        }
-
-        // Assuming the JSON files are in the public directory
-        const response = await fetch(filePath);
-        const data = await response.json();
-        console.log('Instance Data:', JSON.stringify(data, null, 2));
+        const instanceData = getInstanceData(testInstanceKey);
+        setData(instanceData);
+        console.log('Instance Data:', JSON.stringify(instanceData, null, 2));
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load instance data');
         console.error(err);

@@ -23,15 +23,22 @@ export const LLISTA_INSTANCIES = [
     "BAIXA DE LA LLICÈNCIA DE TERRASSES",
 ]
 
-export const INSTANCIA_DATA_MAP: { [key: string]: string } = {
-    "INSTÀNCIA GENÈRICA": "instancia-generica.json",
-    "INSTÀNCIA BECA MENJADOR": "instancia-beca-menjador.json",
-    "INSTÀNCIA DUPLICAT DE CERTIFICAT": "instancia-duplicat-certificat.json",
-    "INSTÀNCIA D'ACCIDENT DE TRÀNSIT DE LA GUARDIA URBANA": "instancia-accident-transit.json",
-    "CERTIFICAT DE PAGAMENT DE MULTES, IMPOSTOS, TAXES I PREUS PÚBLICS": "certificat-pagament.json",
-    "BONIFICACIÓ DE L'IMPOST SOBRE  BÉNS IMMOBLES": "bonificacio-ibi.json",
-    "CANVI D'ADREÇA FISCAL": "canvi-adreca-fiscal.json",
-    "SUSPENSIÓ DE L'EXECUCIÓ DE SANCIONS PER INFRACCIONS DE TRÀNSIT": "suspensio-sancions-transit.json",
-    "ALTA PER NAIXEMENT AL PADRÓ MUNICIPAL D'HABITANTS": "alta-naixement-padro.json",
-    "BAIXA DE LA LLICÈNCIA DE TERRASSES": "baixa-llicencia-terrasses.json"
-};
+export const InstanceData: { [key: string]: any } = {
+    'INSTÀNCIA GENÈRICA': require('./instanceData/instancia-generica.json')
+  };
+  
+  export const getInstanceData = (key: string) => {
+    const data = InstanceData[key];
+    if (!data) throw new Error(`No data found for instance type: ${key}`);
+    return data;
+  };
+/* 
+  'INSTÀNCIA BECA MENJADOR': require('./instanceData/instancia-beca-menjador.json'),
+    'INSTÀNCIA DUPLICAT DE CERTIFICAT': require('./instanceData/instancia-duplicat-certificat.json'),
+    'INSTÀNCIA D\'ACCIDENT DE TRÀNSIT DE LA GUARDIA URBANA': require('./instanceData/instantia-accident-transit.json'),
+    'CERTIFICAT DE PAGAMENT DE MULTES, IMPOSTOS, TAXES I PREUS PÚBLICS': require('./instanceData/certificat-pagament.json'),    
+    'BONIFICACIÓ DE L\'IMPOST SOBRE  BÉNS IMMOBLES': require('./instanceData/bonificacio-ibi.json'),
+    'CANVI D\'ADREÇA FISCAL': require('./instanceData/canvi-adreca-fiscal.json'),
+    'SUSPENSIÓ DE L\'EXECUCIÓ DE SANCIONS PER INFRACCIONS DE TRÀNSIT': require('./instanceData/suspensio-sancions-transit.json'),
+    'ALTA PER NAIXEMENT AL PADRÓ MUNICIPAL D\'HABITANTS': require('./instanceData/alta-naixement-padro.json'),
+    'BAIXA DE LA LLICÈNCIA DE TERRASSES': require('./instanceData/baixa-llicencia-terrasses.json'), */
