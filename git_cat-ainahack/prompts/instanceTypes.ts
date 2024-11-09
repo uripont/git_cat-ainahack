@@ -22,3 +22,16 @@ export const LLISTA_INSTANCIES = [
     "ALTA PER NAIXEMENT AL PADRÓ MUNICIPAL D'HABITANTS",
     "BAIXA DE LA LLICÈNCIA DE TERRASSES",
 ]
+
+export const INSTANCIA_DATA_MAP: { [key: string]: string } = {
+    "INSTÀNCIA GENÈRICA": "instancia-generica.json",
+    "INSTÀNCIA BECA MENJADOR": "instancia-beca-menjador.json",
+    "INSTÀNCIA DUPLICAT DE CERTIFICAT": "instancia-duplicat-certificat.json",
+    "INSTÀNCIA D'ACCIDENT DE TRÀNSIT DE LA GUARDIA URBANA": "instancia-accident-transit.json",
+    "CERTIFICAT DE PAGAMENT DE MULTES, IMPOSTOS, TAXES I PREUS PÚBLICS": "certificat-pagament.json",
+    "BONIFICACIÓ DE L'IMPOST SOBRE  BÉNS IMMOBLES": "bonificacio-ibi.json",
+    "CANVI D'ADREÇA FISCAL": "canvi-adreca-fiscal.json",
+    "SUSPENSIÓ DE L'EXECUCIÓ DE SANCIONS PER INFRACCIONS DE TRÀNSIT": "suspensio-sancions-transit.json",
+    "ALTA PER NAIXEMENT AL PADRÓ MUNICIPAL D'HABITANTS": "alta-naixement-padro.json",
+    "BAIXA DE LA LLICÈNCIA DE TERRASSES": "baixa-llicencia-terrasses.json"
+};
