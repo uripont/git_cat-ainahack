@@ -1,28 +1,23 @@
+// hooks/useItemProcessor.ts
 import { useState, useCallback } from 'react';
 import useTextInstructModel from '@/hooks/useTextInstructModel';
+import { useTextToSpeech } from '@/hooks/useTextToSpeech';
+import { useConversationStore } from '@/hooks/useConversationStore';
 import {
   STAGE2_2_PROMPT_START,
   STAGE2_2_PROMPT_QUESTION
 } from '@/prompts/stage2_2Prompt';
 
-type ProcessingStep = 1 | 2 | 3 | 4 | 5 | 6 | 7;
-
-interface ProcessingState {
-  step: ProcessingStep;
-  results: {
-    [key in ProcessingStep]?: any;
-  };
-}
-
 export const useItemProcessor = () => {
   const [isProcessing, setIsProcessing] = useState(false);
-  const [currentResult, setCurrentResult] = useState<string | null>(null);
-  const [state, setState] = useState<ProcessingState>({
-    step: 2, // Starting with step 2 for now
-    results: {}
-  });
-
   const textInstruct = useTextInstructModel();
+  const { speak, stop, isLoading: isSpeaking } = useTextToSpeech();
+  const { 
+    addMessage, 
+    setCurrentStep, 
+    getCurrentStep,
+    completeStep 
+  } = useConversationStore();
 
   const assemblePrompt = (item: any) => {
     return `${STAGE2_2_PROMPT_START}${item.question || ''}` +
@@ -32,9 +27,10 @@ export const useItemProcessor = () => {
   const processItem = useCallback(async (item: any) => {
     setIsProcessing(true);
     try {
-      console.log(`🔄 Processing item - Step ${state.step}/7:`, item);
+      const currentStep = getCurrentStep();
+      console.log(`🔄 Processing item - Step ${currentStep}/7`);
       
-      switch (state.step) {
+      switch (currentStep) {
         case 2:
           console.log('Step 2: Generating procedure guide');
           const prompt = assemblePrompt(item);
@@ -45,32 +41,32 @@ export const useItemProcessor = () => {
             parameters: { max_new_tokens: 15 } 
           }, prompt);
 
-          setState(prev => ({
-            step: 3,
-            results: {
-              ...prev.results,
-              2: response
-            }
-          }));
-
-          console.log(response);
-          
-          return response;
+          if (typeof response === 'string') {
+            // Save output message only if it's a string
+            addMessage(currentStep, 'output', response);
+            completeStep(currentStep);
+            setCurrentStep(3);
+            return response;
+          } else {
+            const error = 'Model response was not in expected string format';
+            console.error('❌', error);
+            addMessage(currentStep, 'system', error);
+            throw new Error(error);
+          }
       }
     } catch (err) {
       console.error('❌ Processing error:', err);
+      addMessage(getCurrentStep(), 'system', `Error:`);
       throw err;
     } finally {
       setIsProcessing(false);
     }
-  }, [state.step, textInstruct]);
+  }, [textInstruct, addMessage, setCurrentStep, getCurrentStep, completeStep]);
 
   return {
     isProcessing,
-    currentResult,
+    isSpeaking,
     processItem,
-    currentStep: state.step,
-    stepResults: state.results,
-    isModelLoading: textInstruct.loading
+    currentStep: getCurrentStep()
   };
 };
