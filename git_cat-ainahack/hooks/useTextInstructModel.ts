@@ -36,7 +36,7 @@ const useTextInstructModel = () => {
         if (generatedText.startsWith(prompt)) {
           generatedText = generatedText.slice(prompt.length).trim();
         }
-        console.log("Generated text:", generatedText);
+        console.log(generatedText);
         setResponse(generatedText);
       } else {
         throw new Error('Unexpected response format');

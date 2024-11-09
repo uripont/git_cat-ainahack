@@ -1,7 +1,7 @@
 [
     {
       "label": "DNI / Pass. / T. R.",
-      "description": "Número d'identificació personal",
+      "question": "Quin és el teu document d'identitat?",
       "examples": ["DNI: 12345678X", "Passaport: AB1234567", "T. R.: TR123456789"],
       "preferencesKey": "dni"
     },

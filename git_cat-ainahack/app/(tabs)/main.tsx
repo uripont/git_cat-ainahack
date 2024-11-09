@@ -24,7 +24,7 @@ const Main = () => {
       setDisplayedTranscription(transcription);
       // Send transcription to text instruction model
       const prompt = `${STAGE1_PROMPT}${transcription}${STAGE1_PROMPT_END}`;
-      textInstruct.query({ inputs: prompt, parameters: { max_new_tokens: 150 } }, prompt);
+      textInstruct.query({ inputs: prompt, parameters: { max_new_tokens: 300 } }, prompt);
     }
   }, [transcription]);
 
